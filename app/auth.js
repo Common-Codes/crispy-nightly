@@ -1,7 +1,7 @@
 auth.onAuthStateChanged(user => {
     if (user) {
       store.collection('guilds').get().then(snapshot => {
-        setupGuilds(snapshot.docs);
+        setupGuilds(snapshot.docs, user);
         setupUI(user);
         setupBadges(user);
       }, err => {
