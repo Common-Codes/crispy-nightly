@@ -1,6 +1,7 @@
-const guildList = document.querySelector('.guilds');
+const guildList = document.getElementById("guild-nav");
 const loggedOutLinks = document.querySelectorAll('.logged-out');
 const loggedInLinks = document.querySelectorAll('.logged-in');
+const accountFolio = document.querySelector('.guilds');
 const accountDetails = document.querySelector('.account-details');
 const accountBadges = document.querySelector('.account-badges');
 const messageArea = document.querySelector('.message-area')
@@ -33,6 +34,7 @@ const setupUI = (user) => {
         <div>${doc.data().email}</div>
       `;
       accountDetails.innerHTML = html;
+      accountFolio.innerHTML = html;
     })
     loggedInLinks.forEach(item => item.style.display = 'block');
     loggedOutLinks.forEach(item => item.style.display = 'none');
@@ -51,7 +53,7 @@ const setupGuilds = (data) => {
       const guild = doc.data();
       const li = `
         <li>
-          <div> <button onclick="location.href='https://common-codes.github.io/crispy-nightly/app/guilds/${guild.uid}';"><img src="http://ggpht.ga/icons/${guild.img}?size=full" style="width: 48px; height: 48px;"></button> </div>
+          <div> <button alt="${guild.title}" onclick="location.href='/app/guilds/${guild.uid}';"><img alt="${guild.title}" src="http://ggpht.ga/icons/${guild.img}?size=full" style="width: 48px; height: 48px;"></button> </div>
         </li>
       `;
       html += li;

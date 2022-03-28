@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="Login | Crispy - Open Source Chat">
+  <meta name="keywords" content="online, chat, app, open-source. crispy">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link rel="icon" type="image/x-icon" href="https://tallerthanshort.github.io/ut3.ggpht/icons/crispy.png">
+  <title>Nightly | Crispy</title>
+</head>
+<body class="grey lighten-1">
+    <nav class="z-depth-0 grey lighten-2">
+        <div class="nav-wrapper container">
+          <a href="#" class="brand-logo">
+            <h5 style="color: black;">Crispy Nightly</h5>
+          </a>
+          <ul id="guild-nav" class="right hide-on-med">
+              <li class="eggz" style="display: none;">eggz</li>
+          </ul>
+          <ul id="nav-mobile" class="right hide-on-med">
+              <li class="logged-in" style="display: none;">
+                <a href="#" class="grey-text modal-trigger" data-target="modal-account">Account</a>
+              </li>
+              <li class="logged-out" style="display: none;">
+                <a href="#" class="grey-text modal-trigger" data-target="modal-login">Login</a>
+              </li>
+              <li class="logged-out" style="display: none;">
+                <a href="#" class="grey-text modal-trigger" data-target="modal-signup">Sign up</a>
+              </li>
+            </span>
+          </ul>
+        </div>
+      </nav>
+
+      <div id="modal-account" class="modal">
+        <div class="modal-content center-align">
+          <h4>Account details</h4><br />
+          <div class="account-badges"></div>
+          <div class="account-details"></div>
+          <div id="delete-account">
+            <h5 style="color: crimson;">!! YOU CAN ONLY EDIT/DELETE AN ACCOUNT ON CRISPY, NOT NIGHTLY !!</h5>
+          </div>
+        </div>
+      </div>
+
+      <script src="https://www.gstatic.com/firebasejs/5.6.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.6.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.6.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.6.0/firebase-database.js"></script>
+  <script>
+    var firebaseConfig = {
+//reads, writes and OAuth Scopes are restricted to the URL of https://common-codes.github.io/ and only users that are signed-in can read and write data to firebase.auth().currentUser
+      apiKey: "AIzaSyAMo9JcJdFEsXlKh3bHc5H-hX8fq41vIaU",
+      authDomain: "crispy-chat.firebaseapp.com",
+      databaseURL: "https://crispy-chat-default-rtdb.firebaseio.com",
+      projectId: "crispy-chat",
+      storageBucket: "crispy-chat.appspot.com"
+    };
+    firebase.initializeApp(firebaseConfig);
+
+    const auth = firebase.auth();
+    const store = firebase.firestore();
+    
+    // Don't ask, site won't work without it...
+    store.settings({ timestampsInSnapshots: true });
+  </script>
+
+<script>
+    /*var firebaseConfiga = {
+        apiKey: "AIzaSyA_-N3zwxB_ty-5fj37wIz-Dk6IeQl8T74",
+        authDomain: "ckschat-af6fb.firebaseapp.com",
+        databaseURL: "https://ckschat-af6fb.firebaseio.com",
+        projectId: "ckschat-af6fb",
+        storageBucket: "ckschat-af6fb.appspot.com",
+        messagingSenderId: "655383881512",
+        appId: "1:655383881512:web:171a4e7d857901e7bd521d"
+    };
+    firebase.initializeApp(firebaseConfiga);
+
+    const db = firestore.database();*/
+  </script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="auth.js"></script>
+  <script src="index.js"></script>
+</body>
+</html>
