@@ -12,9 +12,9 @@ const setupUI = (user) => {
           <div>${doc.data().email}</div>
         `;
         accountDetails.innerHTML = html;
-        loggedInLinks.forEach(item => item.style.display = 'block');
-        loggedOutLinks.forEach(item => item.style.display = 'none');
       })
+      loggedInLinks.forEach(item => item.style.display = 'block');
+      loggedOutLinks.forEach(item => item.style.display = 'none');
     } else {
       accountDetails.innerHTML = '';
       loggedInLinks.forEach(item => item.style.display = 'none');

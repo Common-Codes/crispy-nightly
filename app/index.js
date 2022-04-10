@@ -1,4 +1,5 @@
 const guildList = document.getElementById("guild-nav");
+const navBar = document.getElementById("navbar");
 const loggedOutLinks = document.querySelectorAll('.logged-out');
 const loggedInLinks = document.querySelectorAll('.logged-in');
 const accountFolio = document.querySelector('.guilds');
@@ -48,19 +49,22 @@ const setupUI = (user) => {
 const setupGuilds = (data) => {
 
   if(data.length){
+    navBar.style.display = 'block'
     let html = '';
     data.forEach(doc => {
       const guild = doc.data();
       const li = `
         <li>
-          <div> <button alt="${guild.title}" onclick="location.href='/app/guilds/${guild.uid}';"><img alt="${guild.title}" src="http://ggpht.ga/icons/${guild.img}?size=full" style="width: 48px; height: 48px;"></button> </div>
+          <div> <button alt="${guild.title}" style="transform: rotate(-90deg) translate(-7%, 0);" onclick="location.href='/app/guilds/${guild.uid}';"><img alt="${guild.title}" src="http://ggpht.ga/icons/${guild.img}?size=full" style="width: 48px; height: 48px;"></button> </div>
         </li>
       `;
       html += li;
     });
     guildList.innerHTML = html
   } else {
-    guildList.innerHTML = '<h5 class="center-align">You must first Log In to access Crispy!</h5>'
+    guildList.style.display = 'none'
+    navBar.style.display = 'none'
+    
   }
 };
 
