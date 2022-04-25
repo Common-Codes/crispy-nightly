@@ -1,5 +1,7 @@
 const guildList = document.getElementById("guild-nav");
+const mobileGuildList = document.getElementById("mobguild-nav")
 const navBar = document.getElementById("navbar");
+const mobnavBar = document.getElementById("mobilenavbar");
 const loggedOutLinks = document.querySelectorAll('.logged-out');
 const loggedInLinks = document.querySelectorAll('.logged-in');
 const accountDetails = document.querySelector('.account-details');
@@ -49,20 +51,24 @@ const setupGuilds = (data) => {
 
   if(data.length){
     navBar.style.display = 'block'
+    mobnavBar.style.display = 'block'
     let html = '';
     data.forEach(doc => {
       const guild = doc.data();
       const li = `
         <li>
-          <div> <button alt="${guild.title}" title="${guild.title}" style="transform: rotate(-90deg) translate(-7%, 0);" onclick="${guild.display}"><img alt="${guild.title}" src="http://ggpht.ga/icons/${guild.img}?size=full" style="width: 48px; height: 48px;"></button> </div>
+          <div> <button alt="${guild.title}" title="${guild.title}" style="transform: rotate(-90deg) translate(-6%, 0);" onclick="${guild.display}"><img alt="${guild.title}" src="http://ggpht.ga/icons/${guild.img}?size=full" style="width: 48px; height: 48px;"></button> </div>
         </li>
       `;
       html += li;
     });
     guildList.innerHTML = html
+    mobileGuildList.innerHTML = html
   } else {
     guildList.style.display = 'none'
+    mobileGuildList.style.display = 'none'
     navBar.style.display = 'none'
+    mobnavBar.style.display = 'none'
     
   }
 };
@@ -84,6 +90,31 @@ const displayNewGuild = () => {
   currentGuildTitleDisplay.innerHTML = html
   temporary.innerHTML = `<p style="color: #151515; transform: translate(5%, -70%); transform-origin: left top;">this was approved by the devs @ VTC</p>`
 }
+
+// MOVE ELEMENT DEPENDING ON SCREEN WIDTH
+function movePosition(){
+	// set element variables
+	var nav = document.getElementById("nav");
+	var navMobile = document.getElementById("mob-nav");
+	
+	// get window width
+	var $windowWidth = document.documentElement.clientWidth;
+	// positioning if statement
+	if($windowWidth < 800){
+		// if below 800px insert after the title and above paragraph
+		nav.style.display = 'block'
+        navMobile.style.display = 'block'
+	} else {
+		// if above 800px move imageHold (sidebar loctaction)
+		nav.style.display = 'block'
+        navMobile.style.display = 'block'
+	}
+}
+
+window.onresize = function(event) {
+	// run move function
+   movePosition()
+};
 
 document.addEventListener('DOMContentLoaded', function() {
 

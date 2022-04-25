@@ -4,6 +4,7 @@ auth.onAuthStateChanged(user => {
         setupGuilds(snapshot.docs, user);
         setupUI(user);
         setupBadges(user);
+        movePosition();
       }, err => {
         window.alert(err.message)
       });
