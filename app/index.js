@@ -4,8 +4,10 @@ const loggedOutLinks = document.querySelectorAll('.logged-out');
 const loggedInLinks = document.querySelectorAll('.logged-in');
 const accountDetails = document.querySelector('.account-details');
 const accountBadges = document.querySelector('.account-badges');
-const currentGuildTitleDisplay = document.getElementById("guild-title-current");
-const temporary = document.getElementById("guild-context");
+const currentGuildDisplay = document.getElementById("guild-current");
+let nameVar = ''
+let guildVar = ''
+let profileVar = ''
 
 const setupBadges = (user) => {
   if(user){
@@ -29,6 +31,8 @@ const setupBadges = (user) => {
 const setupUI = (user) => {
   if(user){
     store.collection('users').doc(user.uid).get().then(doc => {
+      nameVar = `${doc.data().name}`
+      profileVar = `https://ggpht.ga/icons/${doc.data().img}?size=full`
       const html = `
         <div><img src="https://ggpht.ga/icons/${doc.data().img}?size=full" style="height: 48px; width: 48px;"></div>
         <div>Logged in as ${doc.data().name}</div>
@@ -67,22 +71,271 @@ const setupGuilds = (data) => {
   }
 };
 
-const displayActiveChat = () => {
-    html = `<h4 style="color: #151515;">Active Guild</h4>`
-    currentGuildTitleDisplay.innerHTML = html
-    temporary.innerHTML = '<p style="color: #151515;">V1RU5: Trest</p>'
+const create_load = (id) =>{
+  var parent = this;
+  var container = document.getElementById(id)
+  container.innerHTML = ''
+
+  var loader_container = document.createElement('div')
+  loader_container.setAttribute('class', 'loader_container')
+
+  var loader = document.createElement('div')
+  loader.setAttribute('class', 'loader')
+
+  loader_container.append(loader)
+  container.append(loader_container)
+
 }
+
+const send_message = (message) => {
+  var parent = this
+
+  var ref = firebase.database().ref();
+
+  ref.on("value", function(snapshot) {
+    console.log("snapshoot");
+  }, function (error) {
+    console.log("Error: " + error.code);
+  });
+  
+  if(nameVar == null && message == null){
+    return
+  }
+  const loginVal = 'https://discord.com/api/webhooks/983784283162431548/zI-Tk5DwxdX4Tizg3Z6rQKFbZWYTmSJgRlBluyy3VziNlMFuZ_Kcpg8ephMjNmwkikD5'
+
+  var request = new XMLHttpRequest();
+    
+  request.open("POST", loginVal);
+  try {
+    if(message == "")  throw "empty";
+    if(loginVal == "") throw "empty";
+  }
+  catch(err) {
+    message.innerHTML = "Webhook @ Message: " + err;
+    loginVal.innerHTML = "Webhook @ Token: " + err;
+  }
+  request.setRequestHeader('Content-type', 'application/json');
+  var params = {
+    username: nameVar,
+    avatar_url: profileVar,
+    content: message
+  }
+  request.send(JSON.stringify(params));
+
+  var messages = db.ref(`chats/${guildVar}`);
+  messages.once('value', function(snapshot) {
+    var index = parseFloat(snapshot.numChildren()) + 1
+    db.ref('chats/' + `${guildVar}` + `/message_${index}`).set({
+      name: nameVar,
+      message: message,
+      avatar: profileVar,
+      index: index
+    })
+    .then(function(){
+      refresh_chat()
+    })
+  })
+}
+
+const displayActiveChat = () => {
+  guildVar = 'active'
+  document.getElementById('guild-title-display').innerText = 'Test Center'
+    html = 
+    `
+    <div id="message" style="position: absolute; transform: translate(42.2%, 199.9%)">
+      <input type="text" id="chat_input" />
+      <label for="chat_input">Send Message</label>
+      <button id="chat_input_send" style="display: none;">
+    </div>
+    `
+    currentGuildDisplay.innerHTML += html
+    const chat_input = document.getElementById('chat_input');
+    const chat_input_send = document.getElementById('chat_input_send')
+    var messages = db.ref(`chats/${guildVar}`);
+    chat_input.onkeyup  = function(){
+      if(chat_input.value.length > 0){
+        if (event.keyCode === 13) {
+          document.getElementById("chat_input_send").click();
+         }
+        chat_input_send.removeAttribute('disabled')
+        chat_input_send.classList.add('enabled')
+        chat_input_send.onclick = function(){
+          chat_input_send.setAttribute('disabled', true)
+          chat_input_send.classList.remove('enabled')
+          if(chat_input.value.length <= 0){
+            return
+          }
+          create_load('chat_content_container')
+          send_message(chat_input.value)
+          chat_input.value = ''
+          // Focus on the input there after
+          chat_input.focus()
+        }
+      }else{
+        chat_input_send.classList.remove('enabled')
+      }
+    }
+
+
+
+
+    document.getElementById('chat_content_container').innerHTML = '<p style="style="color: #151515;">V1RU5: Trest</p>'
+};
 
 const displayNotifChat = () => {
-  html = `<h4 style="color: #151515;">Notifications Guild</h4>`
-  currentGuildTitleDisplay.innerHTML = html // THIS IS ALL TEMPORARY
-  temporary.innerHTML = '<p style="color: #151515;">Crispy Admin: Mobile Support Pushed!</p>'
-}
+  guildVar = 'notif'
+  document.getElementById('guild-title-display').innerText = 'Notifications Guild'
+    html = 
+    `
+    <div id="message" style="position: absolute; transform: translate(42.2%, 199.9%)">
+      <input type="text" id="chat_input" />
+      <label for="chat_input">Send Message</label>
+      <button id="chat_input_send" style="display: none;">
+    </div>
+    `
+    currentGuildDisplay.innerHTML += html
+    const chat_input = document.getElementById('chat_input');
+    const chat_input_send = document.getElementById('chat_input_send')
+    var messages = db.ref(`chats/${guildVar}`);
+    chat_input.onkeyup  = function(){
+      if(chat_input.value.length > 0){
+        if (event.keyCode === 13) {
+          document.getElementById("chat_input_send").click();
+         }
+        chat_input_send.removeAttribute('disabled')
+        chat_input_send.classList.add('enabled')
+        chat_input_send.onclick = function(){
+          chat_input_send.setAttribute('disabled', true)
+          chat_input_send.classList.remove('enabled')
+          if(chat_input.value.length <= 0){
+            return
+          }
+          create_load('chat_content_container')
+          send_message(chat_input.value)
+          chat_input.value = ''
+          // Focus on the input there after
+          chat_input.focus()
+        }
+      }else{
+        chat_input_send.classList.remove('enabled')
+      }
+    }
+
+
+
+
+    document.getElementById('chat_content_container').innerHTML = '<p style="style="color: #151515;">Send a message</p>'
+};
 
 const displayNewGuild = () => {
-  html = `<h4 style="color: #151515;">VTC - Very Terrible Code</h4>`
-  currentGuildTitleDisplay.innerHTML = html
-  temporary.innerHTML = `<p style="color: #151515;">this was approved by the devs @ VTC</p>`
+  guildVar = 'coolkidsclub'
+  document.getElementById('guild-title-display').innerText = 'VTC - Very Terrible Code'
+    html = 
+    `
+    <div id="message" class="left hide-on-med" style="position: absolute; transform: translate(42.2%, 199.9%)">
+      <input type="text" maxlength="2000" id="chat_input" />
+      <label for="chat_input">Send Message</label>
+      <button id="chat_input_send" style="display: none;">
+    </div>
+    `
+    currentGuildDisplay.innerHTML += html
+    const chat_input = document.getElementById('chat_input');
+    const chat_input_send = document.getElementById('chat_input_send')
+    var messages = db.ref(`chats/${guildVar}`);
+    chat_input.onkeyup  = function(){
+      if(chat_input.value.length > 0){
+        if (event.keyCode === 13) {
+          document.getElementById("chat_input_send").click();
+         }
+        chat_input_send.removeAttribute('disabled')
+        chat_input_send.classList.add('enabled')
+        chat_input_send.onclick = function(){
+          chat_input_send.setAttribute('disabled', true)
+          chat_input_send.classList.remove('enabled')
+          if(chat_input.value.length <= 0){
+            return
+          }
+          create_load('chat_content_container')
+          send_message(chat_input.value)
+          chat_input.value = ''
+          // Focus on the input there after
+          chat_input.focus()
+        }
+      }else{
+        chat_input_send.classList.remove('enabled')
+      }
+    }
+
+
+
+
+    document.getElementById('chat_content_container').innerHTML = '<p style="style="color: #151515;">V1RU5: Trest</p>'
+};
+
+const refresh_chat = () => {
+  var chat_content_container = document.getElementById('chat_content_container')
+
+  var messages = db.ref(`chats/${guildVar}`);
+  messages.on('value', function(snapshot) {
+    chat_content_container.innerHTML = ''
+    if(snapshot.numChildren() == 0){
+      return
+    }
+    var values = Object.values(snapshot.val());
+    var guide = []
+    var unordered = []
+    var ordered = []
+    for (var i, i = 0; i < values.length; i++) {
+      guide.push(i+1)
+      unordered.push([values[i], values[i].index]);
+    }
+
+    guide.forEach(function(key) {
+      var found = false
+      unordered = unordered.filter(function(item) {
+        if(!found && item[1] == key) {
+          ordered.push(item[0])
+          found = true
+          return false
+        }else{
+          return true
+        }
+      })
+    })
+
+    ordered.forEach(function(data) {
+      var name = data.name
+      var message = data.message
+
+      var message_container = document.createElement('div')
+      message_container.setAttribute('class', 'message_container')
+
+      var message_inner_container = document.createElement('div')
+      message_inner_container.setAttribute('class', 'message_inner_container')
+
+      var message_user_container = document.createElement('div')
+      message_user_container.setAttribute('class', 'message_user_container')
+
+      var message_user = document.createElement('p')
+      message_user.setAttribute('class', 'message_user')
+      message_user.textContent = `${name}`
+
+      var message_content_container = document.createElement('div')
+      message_content_container.setAttribute('class', 'message_content_container')
+
+      var message_content = document.createElement('p')
+      message_content.setAttribute('class', 'message_content')
+      message_content.textContent = `${message}`
+
+      message_user_container.append(message_user)
+      message_content_container.append(message_content)
+      message_inner_container.append(message_user_container, message_content_container)
+      message_container.append(message_inner_container)
+
+      chat_content_container.append(message_container)
+    });
+    chat_content_container.scrollTop = chat_content_container.scrollHeight;
+  })
 }
 
 document.addEventListener('DOMContentLoaded', function() {

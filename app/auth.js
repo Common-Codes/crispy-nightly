@@ -10,6 +10,7 @@ auth.onAuthStateChanged(user => {
     } else {
       setupGuilds([])
       setupUI();
+      document.getElementById('guild-title-display').innerText = 'You Must First Log In To Access Crispy'
     }
   })
 
@@ -54,6 +55,6 @@ loginForm.addEventListener('submit', (e) => {
     const modal = document.querySelector('#modal-login');
     M.Modal.getInstance(modal).close();
     loginForm.reset();
-  });
+  }).then(location.href = "/app/?authorised");
 
 });
