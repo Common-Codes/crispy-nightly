@@ -4,7 +4,7 @@ const loggedOutLinks = document.querySelectorAll('.logged-out');
 const loggedInLinks = document.querySelectorAll('.logged-in');
 const accountDetails = document.querySelector('.account-details');
 const accountBadges = document.querySelector('.account-badges');
-const currentGuildDisplay = document.getElementById("guild-current");
+const currentGuildDisplay = document.getElementById('chat_inner_container');
 let nameVar = ''
 let guildVar = ''
 let profileVar = ''
@@ -101,26 +101,6 @@ const send_message = (message) => {
   if(nameVar == null && message == null){
     return
   }
-  const loginVal = 'https://discord.com/api/webhooks/983784283162431548/zI-Tk5DwxdX4Tizg3Z6rQKFbZWYTmSJgRlBluyy3VziNlMFuZ_Kcpg8ephMjNmwkikD5'
-
-  var request = new XMLHttpRequest();
-    
-  request.open("POST", loginVal);
-  try {
-    if(message == "")  throw "empty";
-    if(loginVal == "") throw "empty";
-  }
-  catch(err) {
-    message.innerHTML = "Webhook @ Message: " + err;
-    loginVal.innerHTML = "Webhook @ Token: " + err;
-  }
-  request.setRequestHeader('Content-type', 'application/json');
-  var params = {
-    username: nameVar,
-    avatar_url: profileVar,
-    content: message
-  }
-  request.send(JSON.stringify(params));
 
   var messages = db.ref(`chats/${guildVar}`);
   messages.once('value', function(snapshot) {
@@ -142,10 +122,12 @@ const displayActiveChat = () => {
   document.getElementById('guild-title-display').innerText = 'Test Center'
     html = 
     `
-    <div id="message" style="position: absolute; transform: translate(42.2%, 199.9%)">
+    <div id="chat_input_container">
       <input type="text" id="chat_input" />
       <label for="chat_input">Send Message</label>
-      <button id="chat_input_send" style="display: none;">
+      <div id="chat_input_send">
+        <button id="chat_input_send" style="display: none;">
+      </div>
     </div>
     `
     currentGuildDisplay.innerHTML += html
@@ -179,18 +161,20 @@ const displayActiveChat = () => {
 
 
 
-    document.getElementById('chat_content_container').innerHTML = '<p style="style="color: #151515;">V1RU5: Trest</p>'
+    document.getElementById('chat_content_container').innerHTML = `<p style="style="color: #151515;">${nameVar}, Say Something</p>`
 };
 
 const displayNotifChat = () => {
   guildVar = 'notif'
-  document.getElementById('guild-title-display').innerText = 'Notifications Guild'
+  document.getElementById('guild-title-display').innerText = 'Common-Codes'
     html = 
     `
-    <div id="message" style="position: absolute; transform: translate(42.2%, 199.9%)">
+    <div id="chat_input_container">
       <input type="text" id="chat_input" />
       <label for="chat_input">Send Message</label>
-      <button id="chat_input_send" style="display: none;">
+      <div id="chat_input_send">
+        <button id="chat_input_send" style="display: none;">
+      </div>
     </div>
     `
     currentGuildDisplay.innerHTML += html
@@ -224,7 +208,7 @@ const displayNotifChat = () => {
 
 
 
-    document.getElementById('chat_content_container').innerHTML = '<p style="style="color: #151515;">Send a message</p>'
+    document.getElementById('chat_content_container').innerHTML = `<p style="style="color: #151515;">${nameVar}, Say Something</p>`
 };
 
 const displayNewGuild = () => {
@@ -232,10 +216,12 @@ const displayNewGuild = () => {
   document.getElementById('guild-title-display').innerText = 'VTC - Very Terrible Code'
     html = 
     `
-    <div id="message" class="left hide-on-med" style="position: absolute; transform: translate(42.2%, 199.9%)">
-      <input type="text" maxlength="2000" id="chat_input" />
+    <div id="chat_input_container">
+      <input type="text" id="chat_input" />
       <label for="chat_input">Send Message</label>
-      <button id="chat_input_send" style="display: none;">
+      <div id="chat_input_send">
+        <button id="chat_input_send" style="display: none;">
+      </div>
     </div>
     `
     currentGuildDisplay.innerHTML += html
@@ -269,7 +255,7 @@ const displayNewGuild = () => {
 
 
 
-    document.getElementById('chat_content_container').innerHTML = '<p style="style="color: #151515;">V1RU5: Trest</p>'
+    document.getElementById('chat_content_container').innerHTML = `<p style="style="color: #151515;">${nameVar}, Say Something</p>`
 };
 
 const refresh_chat = () => {

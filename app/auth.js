@@ -55,6 +55,6 @@ loginForm.addEventListener('submit', (e) => {
     const modal = document.querySelector('#modal-login');
     M.Modal.getInstance(modal).close();
     loginForm.reset();
-  }).then(location.href = "/app/?authorised");
+  });
 
 });

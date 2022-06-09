@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <link rel="icon" type="image/x-icon" href="https://tallerthanshort.github.io/ut3.ggpht/icons/crispy.png">
   <title>Nightly | Crispy</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body class="grey lighten-1">
 
@@ -88,7 +89,7 @@
   <nav id="nav" style="background-color: #e0e0e0;">
     <div>
       <ul id="guild-nav" class="left hide-on-med">
-          <li class="eggz" style="display: none;">eggz</li>
+          <li class="eggz" style="display: none;"></li>
         </ul>
       </div>
     </nav>
@@ -96,14 +97,13 @@
 
   <!--Temporarily flux-coded guild objects, to prevent errors-->
   <div id="guild-current">
-    <h4 id="guild-title-display" style="color: #151515;"></h4>
-    <br>
-    <div id="chat_content_container" style="position: absolute; transform: translate(159.8%, 9.2%)"></div>
-    
+    <h4 id="guild-title-display" style="color: #151515"></h4>
   </div>
 
-  <div id="guild-context">
-    <p style="color: #151515; transform: translate(0.4%, 0%); transform-origin: left top;"></p>
+  <div id="chat_container">
+    <div id="chat_inner_container">
+      <div id="chat_content_container"></div>
+    </div>
   </div>
 
   <script src="https://www.gstatic.com/firebasejs/5.6.0/firebase-app.js"></script>
