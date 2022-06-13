@@ -9,22 +9,34 @@ let nameVar = ''
 let guildVar = ''
 let profileVar = ''
 
+const validURL = (str) =>{
+  var regex = /(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
+  if(!regex.test(str)){
+      return false; //false
+  } else {
+      return true; //true
+  }
+}
+
 const setupBadges = (user) => {
   if(user){
-    store.collection('users').doc(user.uid).get().then(doc => {
-      const html = `
+    store.collection('badges').doc(user.uid).get().then(doc => {
+      const badges = doc.data(); 
+      const badge = `
       <div class="_category_sso5v_101">Badges</div>
       <div class="modal-content UserBadges__BadgesBase-sc-1ubexy3-0 gMJfVq" style="display: flex;">
         <div style="display: flex;">
-          <img src="https://www.svgrepo.com/show/182103/badge-medal.svg" style="height: 26px; width: 26px;">
+          <img title="Beta Tester" src="https://www.svgrepo.com/show/182103/badge-medal.svg" style="height: 26px; width: 26px;">
         </div>
         <div style="display: none;">
           <img src="https://www.svgrepo.com/show/193147/badge.svg" style="height: 26px; width: 26px;">
         </div>
       </div>
       `;
-      accountBadges.innerHTML = html;
+      accountBadges.innerHTML = badge;
     })
+  } else{
+    accountBadges.innerHTML = ''
   }
 }
 
@@ -32,9 +44,9 @@ const setupUI = (user) => {
   if(user){
     store.collection('users').doc(user.uid).get().then(doc => {
       nameVar = `${doc.data().name}`
-      profileVar = `https://ggpht.ga/icons/${doc.data().img}?size=full`
+      profileVar = `${doc.data().img}`
       const html = `
-        <div><img src="https://ggpht.ga/icons/${doc.data().img}?size=full" style="height: 48px; width: 48px;"></div>
+        <div><img src="${doc.data().img}" style="height: 48px; width: 48px;"></div>
         <div>Logged in as ${doc.data().name}</div>
         <div>${doc.data().email}</div>
       `;
@@ -58,7 +70,7 @@ const setupGuilds = (data) => {
       const guild = doc.data();
       const li = `
         <li>
-          <div> <button alt="${guild.title}" title="${guild.title}" style="transform: rotate(-90deg);" onclick="${guild.display}"><img alt="${guild.title}" src="http://ggpht.ga/icons/${guild.img}?size=full" style="width: 48px; height: 48px;"></button> </div>
+          <div> <button alt="${guild.title}" title="${guild.title}" style="transform: rotate(-90deg);" onclick="${guild.display}"><img alt="${guild.title}" src="${guild.img}" style="width: 48px; height: 48px;"></button> </div>
         </li>
       `;
       html += li;
@@ -119,7 +131,7 @@ const send_message = (message) => {
 
 const displayActiveChat = () => {
   guildVar = 'active'
-  document.getElementById('guild-title-display').innerText = 'Test Center'
+  document.getElementById('guild-title-display').innerText = 'TallerThanShort\'s Crack Den'
     html = 
     `
     <div id="chat_input_container">
@@ -165,7 +177,7 @@ const displayActiveChat = () => {
 };
 
 const displayNotifChat = () => {
-  guildVar = 'notif'
+  guildVar = 'common'
   document.getElementById('guild-title-display').innerText = 'Common-Codes'
     html = 
     `
@@ -291,6 +303,7 @@ const refresh_chat = () => {
 
     ordered.forEach(function(data) {
       var name = data.name
+      var avatar = data.avatar
       var message = data.message
 
       var message_container = document.createElement('div')
@@ -302,16 +315,22 @@ const refresh_chat = () => {
       var message_user_container = document.createElement('div')
       message_user_container.setAttribute('class', 'message_user_container')
 
-      var message_user = document.createElement('p')
+      var message_user = document.createElement('div')
       message_user.setAttribute('class', 'message_user')
-      message_user.textContent = `${name}`
+      message_user.innerHTML = `<img src="${avatar}" style="width: 18px; height: 18px; border-radius: 50%;"> ${name}`
 
       var message_content_container = document.createElement('div')
       message_content_container.setAttribute('class', 'message_content_container')
 
-      var message_content = document.createElement('p')
-      message_content.setAttribute('class', 'message_content')
-      message_content.textContent = `${message}`
+      if(validURL(message)){
+        var message_content = document.createElement('div')
+        message_content.setAttribute('class', 'message_content')
+        message_content.innerHTML = `<p style="text-decoration: underline; cursor: pointer;" onclick="location.href='${message}'">${message}</a>\n<div class="message_embed"><img src="${message}" style="cursor: default;"></div>`;
+      } else{
+        var message_content = document.createElement('p')
+        message_content.setAttribute('class', 'message_content')
+        message_content.textContent = `${message}`;
+      }
 
       message_user_container.append(message_user)
       message_content_container.append(message_content)

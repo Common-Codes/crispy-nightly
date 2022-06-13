@@ -67,7 +67,7 @@
   .message_container{
     width: 100%;
     display: inline-block;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
   
   }
   .message_inner_container{
@@ -79,7 +79,7 @@
   .message_user_container{
     width: 100%;
     display: inline-block;
-    color: #1E3354;
+    color: #1e4054;
   }
   .message_user{
     font-weight: bold;
