@@ -325,7 +325,7 @@ const refresh_chat = () => {
       if(validURL(message)){
         var message_content = document.createElement('div')
         message_content.setAttribute('class', 'message_content')
-        message_content.innerHTML = `<p style="text-decoration: underline; cursor: pointer;" onclick="location.href='${message}'">${message}</a>\n<div class="message_embed"><img src="${message}" style="cursor: default;"></div>`;
+        message_content.innerHTML = `<p style="text-decoration: underline; cursor: pointer;" onclick="location.href='${message}'">${message}</a>\n<div class="message_embed"><iframe src="https://verbose.crispychat.tech/#url_src=${message}&size=46" style="height: 252px; width: 100%;" frameborder="0"></iframe></div>`;
       } else{
         var message_content = document.createElement('p')
         message_content.setAttribute('class', 'message_content')
