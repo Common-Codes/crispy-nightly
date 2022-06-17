@@ -130,7 +130,7 @@ const send_message = (message) => {
 }
 
 const displayActiveChat = () => {
-  guildVar = 'active'
+  guildVar = 'creak'
   document.getElementById('guild-title-display').innerText = 'TallerThanShort\'s Crack Den'
     html = 
     `
