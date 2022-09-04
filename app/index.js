@@ -8,6 +8,16 @@ const currentGuildDisplay = document.getElementById('chat_inner_container');
 let nameVar = ''
 let guildVar = ''
 let profileVar = ''
+const wwidth = window.innerWidth;
+let imgtagheight = ''
+
+if(wwidth > '900'){
+  console.log(wwidth);
+  imgtagheight = '140px'
+} else{
+  console.log(wwidth);
+  imgtagheight = '133px'
+}
 
 const validURL = (str) =>{
   var regex = /(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
@@ -41,7 +51,7 @@ const setupUI = (user) => {
       const html = `
         <div><img title="Profile Picture" src="${doc.data().img}" style="height: 48px; width: 48px;"></div>
         <div>Logged in as ${doc.data().name}</div>
-        <div>${doc.data().email}</div>
+        <div>${user.email}</div>
       `;
       accountDetails.innerHTML = html;
     })
@@ -318,7 +328,7 @@ const refresh_chat = () => {
       if(validURL(message)){
         var message_content = document.createElement('div')
         message_content.setAttribute('class', 'message_content')
-        message_content.innerHTML = `<p style="text-decoration: underline; cursor: pointer;" onclick="location.href='${message}'">${message}</a>\n<div class="message_embed"><iframe src="https://verbose.crispychat.tech/#url_src=${message}&size=47" style="height: 256px; width: 100%;" frameborder="0"></iframe></div>`;
+        message_content.innerHTML = `<p style="text-decoration: underline; cursor: pointer;" onclick="location.href='${message}'">${message}</a>\n<div class="message_embed"><iframe style="height: ${imgtagheight};" src="https://verbose.crispychat.tech/#url_src=${message}&size=40" style="height: 256px; width: 100%;" frameborder="0"></iframe></div>`;
       } else{
         var message_content = document.createElement('p')
         message_content.setAttribute('class', 'message_content')

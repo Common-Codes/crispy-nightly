@@ -1,4 +1,16 @@
 body{
    background-color: #bdbdbd;
-   color: white;
+   color: black;
+}
+
+.spinner{
+   height: 30px;
+   width: 30px;
+   animation: spinner 0.9s linear infinite;
+}
+
+@keyframes spinner{
+   to{
+      transform: rotate(360deg);
+   }
 }
