@@ -10,10 +10,11 @@ let guildVar = ''
 let profileVar = ''
 const wwidth = window.innerWidth;
 let imgtagheight = ''
+let currentChatUID = ''
 
 if(wwidth > '900'){
   console.log(wwidth);
-  imgtagheight = '140px'
+  imgtagheight = '155px'
 } else{
   console.log(wwidth);
   imgtagheight = '133px'
@@ -73,7 +74,7 @@ const setupGuilds = (data) => {
       const guild = doc.data();
       const li = `
         <li>
-          <div> <button alt="${guild.title}" title="${guild.title}" style="transform: rotate(-90deg);" onclick="${guild.display}"><img alt="${guild.title}" src="${guild.img}" style="width: 48px; height: 48px;"></button> </div>
+          <div> <button title="${guild.title}" style="transform: rotate(-90deg);" onclick="${guild.display}"><img alt="${guild.title}" src="${guild.img}" style="width: 48px; height: 48px;"></button> </div>
         </li>
       `;
       html += li;
@@ -133,19 +134,22 @@ const send_message = (message) => {
 }
 
 const displayActiveChat = () => {
+  //guildVar = currentChatUID;
   guildVar = 'creak'
   document.getElementById('guild-title-display').innerText = 'TallerThanShort\'s Crack Den'
     html = 
     `
+    <div id="chat_content_container"></div>
     <div id="chat_input_container">
       <input type="text" id="chat_input" />
       <label for="chat_input">Send Message</label>
       <div id="chat_input_send">
-        <button id="chat_input_send" style="display: none;">
+        <button id="chat_input_send" style="display: none;"></button>
+        <button id="chat_attachments" style="display: block; border: none; width: 20px; height: 22px; position: relative; top: -44px; left: -29px;" disabled> + </button>
       </div>
     </div>
     `
-    currentGuildDisplay.innerHTML += html
+    currentGuildDisplay.innerHTML = html
     const chat_input = document.getElementById('chat_input');
     const chat_input_send = document.getElementById('chat_input_send')
     var messages = db.ref(`chats/${guildVar}`);
@@ -184,6 +188,7 @@ const displayNotifChat = () => {
   document.getElementById('guild-title-display').innerText = 'Common-Codes'
     html = 
     `
+    <div id="chat_content_container"></div>
     <div id="chat_input_container">
       <input type="text" id="chat_input" />
       <label for="chat_input">Send Message</label>
@@ -192,7 +197,7 @@ const displayNotifChat = () => {
       </div>
     </div>
     `
-    currentGuildDisplay.innerHTML += html
+    currentGuildDisplay.innerHTML = html
     const chat_input = document.getElementById('chat_input');
     const chat_input_send = document.getElementById('chat_input_send')
     var messages = db.ref(`chats/${guildVar}`);
@@ -231,6 +236,7 @@ const displayNewGuild = () => {
   document.getElementById('guild-title-display').innerText = 'VTC - Very Terrible Code'
     html = 
     `
+    <div id="chat_content_container"></div>
     <div id="chat_input_container">
       <input type="text" id="chat_input" />
       <label for="chat_input">Send Message</label>
@@ -239,7 +245,7 @@ const displayNewGuild = () => {
       </div>
     </div>
     `
-    currentGuildDisplay.innerHTML += html
+    currentGuildDisplay.innerHTML = html
     const chat_input = document.getElementById('chat_input');
     const chat_input_send = document.getElementById('chat_input_send')
     var messages = db.ref(`chats/${guildVar}`);
