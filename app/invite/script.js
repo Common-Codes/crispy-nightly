@@ -15,7 +15,7 @@ window.onload = function(){
                 } else if(expiry == null){
                     content.innerHTML = `<div style="background-color: #EBABAB; width: 100%;"><b style="text-align: center;">This invite is invalid or has expired!</b><p>All invite links have an expiry timestamp at the end, make sure yours does too. Also make sure it's still valid.</p><br><br><p style="cursor: pointer; background-color: lightgray; width: 100%; text-transform: uppercase; text-align: center;">ask for a new invite</p><div>`;
                 } else{
-                    content.innerHTML = `<div style="background-color: #EBABAB; width: 100%;"><b style="text-align: center;">This invite is invalid or has expired!</b><p>All invite links have an expiry timestamp at the end, make sure yours does too. Also make sure it's still valid.</p><br><br><p style="cursor: pointer; background-color: lightgray; width: 100%; text-transform: uppercase; text-align: center;">ask for a new invite</p><div>`;
+                    content.innerHTML = `<div style="background-color: #EBABAB; width: 100%;"><b style="text-align: center;">This invite is invalid or has expired!</b><br><br><p style="cursor: pointer; background-color: lightgray; width: 100%; text-transform: uppercase; text-align: center;">ask for a new invite</p><div>`;
                 }
                 
             });
