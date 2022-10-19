@@ -14,28 +14,6 @@ auth.onAuthStateChanged(user => {
     }
   })
 
-const signupForm = document.querySelector('#signup-form');
-signupForm.addEventListener('submit', (e) => {
-  e.preventDefault();
-  
-  const email = signupForm['signup-email'].value;
-  const password = signupForm['signup-password'].value;
-
-  auth.createUserWithEmailAndPassword(email, password).then(cred => {
-    return store.collection('users').doc(cred.user.uid).set({
-      name: signupForm['signup-name'].value,
-      email: signupForm['signup-email'].value
-    });
-  }).then(() => {
-    //making people verify emails... maybe...
-    firebase.auth().currentUser.sendEmailVerification();
-    //ok, not quite there yet...
-    const modal = document.querySelector('#modal-signup');
-    M.Modal.getInstance(modal).close();
-    signupForm.reset();
-  });
-});
-
 const logout = document.querySelector('#logout');
 logout.addEventListener('click', (e) => {
   e.preventDefault();
@@ -55,6 +33,6 @@ loginForm.addEventListener('submit', (e) => {
     const modal = document.querySelector('#modal-login');
     M.Modal.getInstance(modal).close();
     loginForm.reset();
-  });
+  }).then(function(){location.reload()}, 5000);
 
 });
