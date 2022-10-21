@@ -1,8 +1,7 @@
 const fragment = new URLSearchParams(window.location.search.slice(1));
-const guildName = fragment.get('a');
+const guildName = fragment.get('g');
 const currentGuildDisplay = document.getElementById('chat_inner_container');
 let guildVar = ''
-let currentChatUID = ''
 
 // Validating URL's with regex
 const validIMG = (str) =>{
@@ -10,7 +9,6 @@ const validIMG = (str) =>{
     if(!imgregex.test(str)){
         return false; //false
     } else{
-        console.log(`match ` + str)
         return true; //true ^
     }
 }
@@ -46,7 +44,7 @@ const create_load = (id) =>{
     var ref = firebase.database().ref();
   
     ref.on("value", function(snapshot) {
-      console.log("snapshoot");
+      console.log("WSS: Success");
     }, function (error) {
       console.log("Error: " + error.code);
     });
@@ -76,6 +74,7 @@ const create_load = (id) =>{
         const gday = doc.data();
         guildVar = `${gday.uid}`;
         document.getElementById('guild-title-display').innerText = `${gday.title}`;
+        document.title = `Nightly | ${gday.title}`
         html = 
         `
         <div id="chat_content_container"></div>
@@ -83,36 +82,26 @@ const create_load = (id) =>{
           <input type="text" id="chat_input" />
           <label for="chat_input">Send Message</label>
           <div id="chat_input_send">
-            <button id="chat_input_send" style="display: none;"></button>
             <button id="chat_attachments" style="display: block; border: none; width: 20px; height: 20px; position: relative; top: -44px; left: -29px;" disabled><img src="https://www.svgrepo.com/show/16233/upload.svg"></button>
           </div>
         </div>
         `
         currentGuildDisplay.innerHTML = html;
         const chat_input = document.getElementById('chat_input');
-        const chat_input_send = document.getElementById('chat_input_send')
+        const chat_attachment = document.getElementById('chat_attachments')
         var messages = db.ref(`chats/${guildVar}`);
       chat_input.onkeyup  = function(){
         if(chat_input.value.length > 0){
           if (event.keyCode === 13) {
-            document.getElementById("chat_input_send").click();
+              if(chat_input.value.length <= 0){
+                return
+              }
+              create_load('chat_content_container')
+              send_message(chat_input.value)
+              chat_input.value = ''
+              // Focus on the input there after
+              chat_input.focus()
            }
-          chat_input_send.removeAttribute('disabled')
-          chat_input_send.classList.add('enabled')
-          chat_input_send.onclick = function(){
-            chat_input_send.setAttribute('disabled', true)
-            chat_input_send.classList.remove('enabled')
-            if(chat_input.value.length <= 0){
-              return
-            }
-            create_load('chat_content_container')
-            send_message(chat_input.value)
-            chat_input.value = ''
-            // Focus on the input there after
-            chat_input.focus()
-          }
-        }else{
-          chat_input_send.classList.remove('enabled')
         }
       }
 
@@ -122,6 +111,8 @@ const create_load = (id) =>{
       })
       })
     })
+  } else{
+    currentGuildDisplay.innerHTML = `Welcome to Crispy!<br><br>To get you started, here are some useful tips & locations:<br><br><button onclick="location.href='https://common-codes.github.io/crispy-nightly/app/invite?code=commoncodes&expire=3873025738000';">Join official C-C guild</button>`
   }
   
   const refresh_chat = () => {

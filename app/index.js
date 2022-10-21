@@ -66,7 +66,7 @@ const setupGuilds = (data) => {
       const guild = doc.data();
       const li = `
         <li>
-          <div> <button title="${guild.title}" style="display: block; color: #000; padding; 8px 16px;" onclick="location.href='?a=${guild.uid}';"><img alt="${guild.title}" src="${guild.img}" style="width: 48px; height: 48px;"></button> </div>
+          <div> <button title="${guild.title}" style="display: block; color: #000; padding; 8px 16px;" onclick="location.href='?g=${guild.uid}';"><img alt="${guild.title}" src="${guild.img}" style="width: 48px; height: 48px;"></button> </div>
         </li>
       `;
       html += li;
