@@ -36,7 +36,6 @@ const setupUI = (user) => {
       const html = `
         <div>
           <img title="Profile Picture" src="${doc.data().img}" style="height: 48px; width: 48px;">
-          <img title="Edit Account" src="https://www.svgrepo.com/show/105166/edit.svg" style="position: absolute; height: 14px; width: 14px;">
         </div>
         <div>Logged in as ${doc.data().name}</div>
         <div>${user.email}</div>
@@ -60,22 +59,30 @@ const setupUI = (user) => {
 const setupGuilds = (data) => {
 
   if(data.length){
-    navBar.style.display = 'block'
-    let html = '';
-    data.forEach(doc => {
-      const guild = doc.data();
-      const li = `
-        <li>
-          <div> <button title="${guild.title}" style="display: block; color: #000; padding; 8px 16px;" onclick="location.href='?g=${guild.uid}';"><img alt="${guild.title}" src="${guild.img}" style="width: 48px; height: 48px;"></button> </div>
-        </li>
-      `;
-      html += li;
+    store.collection('users').doc(auth.currentUser.uid).collection('joined').get().then(snapshot => {
+      setupJoinedGuilds(snapshot.docs);
     });
-    guildList.innerHTML = html
-  } else {
+  } else{
+    return;
+  }
+};
+
+const setupJoinedGuilds = (data) => {
+  if(data.length){
+    navBar.style.display = 'block'
+    let html = ``
+    data.forEach(doc => {
+      const guild = doc.data().id;
+      store.collection('guilds').where("uid", "==", guild).get().then((querySnaphot) => {
+        querySnaphot.forEach((doc) => {
+          const groode = doc.data();
+          guildList.innerHTML += `<li><div><button title="${groode.title}" style="display: block; color: #000; padding; 8px 16px;" onclick="location.href='?g=${groode.id}';"><img alt="${groode.title}" src="${groode.img}" style="width: 48px; height: 48px;"></button></div></li>`;
+        })
+      })
+    })
+  } else{
     guildList.style.display = 'none'
     navBar.style.display = 'none'
-    
   }
 };
 

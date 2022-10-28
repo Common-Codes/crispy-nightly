@@ -24,3 +24,26 @@ window.onload = function(){
         content.innerHTML = `<div style="background-color: #EBABAB; width: 100%;"><b style="text-align: center;">This invite is invalid or has expired!</b><p>All invite links have an expiry timestamp at the end, make sure yours does too. Also make sure it's still valid.</p><br><br><p style="cursor: pointer; background-color: lightgray; width: 100%; text-transform: uppercase; text-align: center;">ask for a new invite</p><div>`;
     }
 }
+
+function joinFunction(){
+    const user = auth.currentUser;
+    const fragment = new URLSearchParams(window.location.search.slice(1));
+    const code = fragment.get('code');
+    if(code != null){
+        if(user != null){
+            store.collection('guilds').where("invite", "==", code).get().then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    const currentGuild = doc.data().uid;
+                    store.collection('users').doc(auth.currentUser.uid).collection('joined').doc(code).set({
+                        id: `${currentGuild}`
+                    })
+                })
+            })
+            setTimeout(function(){location.href='/app'}, 2900)
+        } else{
+            location.href='/app#'
+        }
+    } else{
+        return;
+    }
+}

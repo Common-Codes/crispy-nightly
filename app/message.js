@@ -112,7 +112,7 @@ const create_load = (id) =>{
       })
     })
   } else{
-    currentGuildDisplay.innerHTML = `Welcome to Crispy!<br><br>To get you started, here are some useful tips & locations:<br><br><button onclick="location.href='https://common-codes.github.io/crispy-nightly/app/invite?code=commoncodes&expire=3873025738000';">Join official C-C guild</button>`
+    currentGuildDisplay.innerHTML = `<b>Welcome to Crispy!</b><br><br><b>To get you started, here are some useful locations:</b><br><br><button class="btn cyan darken-1 z-depth-1" onclick="location.href='https://common-codes.github.io/crispy-nightly/app/invite?code=commoncodes&expire=3873025738000';">Join official C-C guild</button><br><br><button class="btn cyan darken-1 z-depth-1" onclick="location.href='https://discord.gg/xMVaHBrzu6';">Join the Discord!</button>`
   }
   
   const refresh_chat = () => {
