@@ -1,5 +1,5 @@
 const fragment = new URLSearchParams(window.location.search.slice(1));
-const guildName = fragment.get('g');
+const guildUid = fragment.get('g');
 const currentGuildDisplay = document.getElementById('chat_inner_container');
 let guildVar = ''
 
@@ -68,8 +68,8 @@ const create_load = (id) =>{
     })
   }
   
-  if(guildName != null){
-    store.collection('guilds').where("uid", "==", guildName).get().then((querySnaphot) => {
+  if(guildUid != null){
+    store.collection('guilds').where("uid", "==", guildUid).get().then((querySnaphot) => {
       querySnaphot.forEach((doc) => {
         const gday = doc.data();
         guildVar = `${gday.uid}`;

@@ -76,7 +76,7 @@ const setupJoinedGuilds = (data) => {
       store.collection('guilds').where("uid", "==", guild).get().then((querySnaphot) => {
         querySnaphot.forEach((doc) => {
           const groode = doc.data();
-          guildList.innerHTML += `<li><div><button title="${groode.title}" style="display: block; color: #000; padding; 8px 16px;" onclick="location.href='?g=${groode.id}';"><img alt="${groode.title}" src="${groode.img}" style="width: 48px; height: 48px;"></button></div></li>`;
+          guildList.innerHTML += `<li><div><button title="${groode.title}" style="display: block; color: #000; padding; 8px 16px;" onclick="location.href='?g=${groode.uid}';"><img alt="${groode.title}" src="${groode.img}" style="width: 48px; height: 48px;"></button></div></li>`;
         })
       })
     })
